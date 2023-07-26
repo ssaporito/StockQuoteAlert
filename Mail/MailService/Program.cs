@@ -1,9 +1,12 @@
 using MailService;
+using Messaging;
 
 IHost host = Host.CreateDefaultBuilder(args)
-    .ConfigureServices(services =>
+    .ConfigureServices((hostContext, services) =>
     {
-        services.AddHostedService<Worker>();
+        IConfiguration configuration = hostContext.Configuration;
+        services.SetUpRabbitMq(configuration);
+        services.AddHostedService<Worker>();        
     })
     .Build();
 
