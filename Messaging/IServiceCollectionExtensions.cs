@@ -11,13 +11,14 @@ public static class IServiceCollectionExtensions
         var configSection = config.GetSection("RabbitMQSettings");
         var settings = new RabbitMQSettings();
         configSection.Bind(settings);
+        services.Configure<RabbitMQSettings>(configSection);
 
-        // add the settings for later use by other classes via injection
-        services.AddSingleton(settings);
         services.AddSingleton<IConnectionFactory>(sp => new ConnectionFactory
         {
             HostName = settings.HostName,
-            DispatchConsumersAsync = true
+            UserName = settings.UserName,
+            Password = settings.Password,
+            DispatchConsumersAsync = true,        
         });
 
         services.AddSingleton<ModelFactory>();

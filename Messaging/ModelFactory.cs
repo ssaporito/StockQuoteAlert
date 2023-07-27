@@ -1,4 +1,5 @@
-﻿using RabbitMQ.Client;
+﻿using Microsoft.Extensions.Options;
+using RabbitMQ.Client;
 
 namespace Messaging
 {
@@ -6,9 +7,10 @@ namespace Messaging
     {
         private readonly IConnection _connection;
         private readonly RabbitMQSettings _settings;
-        public ModelFactory(IConnectionFactory connectionFactory, RabbitMQSettings settings)
+
+        public ModelFactory(IConnectionFactory connectionFactory, IOptions<RabbitMQSettings> settings)
         {
-            _settings = settings;
+            _settings = settings.Value;
             _connection = connectionFactory.CreateConnection();
         }
 
