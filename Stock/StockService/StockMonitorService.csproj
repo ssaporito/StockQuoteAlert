@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dotnet-StockService-6a101cf4-072e-4884-8e91-dbc5e1c8c57d</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileRunArguments>--network stock-alert</DockerfileRunArguments>
   </PropertyGroup>
 
   <ItemGroup>

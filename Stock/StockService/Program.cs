@@ -1,12 +1,14 @@
 using Messaging;
-using StockService;
+using StockMonitorService;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((hostContext, services) =>
     {
         IConfiguration configuration = hostContext.Configuration;
+        services.AddSingleton(() => new HttpClient());
+        services.Configure<StockApiSettings>(configuration.GetSection("StockApiSettings"));
         services.SetUpRabbitMq(configuration);
-        services.AddHostedService<Worker>();        
+        services.AddHostedService<StockMonitorWorker>();        
     })
     .Build();
 
