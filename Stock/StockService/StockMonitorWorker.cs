@@ -3,12 +3,12 @@ namespace StockMonitorService
     public class StockMonitorWorker : BackgroundService
     {
         private readonly ILogger<StockMonitorWorker> _logger;        
-        private readonly IStockMonitorService _stockMonitorService;
+        private readonly IStockMonitor _stockMonitor;
 
-        public StockMonitorWorker(ILogger<StockMonitorWorker> logger, IStockMonitorService stockMonitorService)
+        public StockMonitorWorker(ILogger<StockMonitorWorker> logger, IStockMonitor stockMonitorService)
         {
             _logger = logger;
-            _stockMonitorService = stockMonitorService;
+            _stockMonitor = stockMonitorService;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -16,7 +16,7 @@ namespace StockMonitorService
             while (!stoppingToken.IsCancellationRequested)
             {
                 _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-                var result = await _stockMonitorService.QueryStockQuote("Test");
+                var result = await _stockMonitor.QueryStockQuote("Test");
                 _logger.LogInformation("API Result: {result}", result);
                 await Task.Delay(12000, stoppingToken);
             }
