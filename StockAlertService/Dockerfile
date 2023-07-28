@@ -5,18 +5,18 @@ WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["Stock/StockService/StockMonitorService.csproj", "Stock/StockService/"]
+COPY ["StockAlertService/StockAlertService.csproj", "StockAlertService/"]
 COPY ["Common/Common.csproj", "Common/"]
 COPY ["Messaging/Messaging.csproj", "Messaging/"]
-RUN dotnet restore "Stock/StockService/StockMonitorService.csproj"
+RUN dotnet restore "StockAlertService/StockAlertService.csproj"
 COPY . .
-WORKDIR "/src/Stock/StockService"
-RUN dotnet build "StockMonitorService.csproj" -c Release -o /app/build
+WORKDIR "/src/StockAlertService"
+RUN dotnet build "StockAlertService.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "StockMonitorService.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "StockAlertService.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "StockMonitorService.dll"]
+ENTRYPOINT ["dotnet", "StockAlertService.dll"]

@@ -1,5 +1,4 @@
 ﻿using Common.Dtos.Stock;
-using System.Security.Cryptography.X509Certificates;
 
 namespace StockMonitorService
 {

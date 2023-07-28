@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using RabbitMQ.Client;
 
 namespace Messaging;
+
 public static class IServiceCollectionExtensions
 {
 

@@ -1,8 +1,3 @@
-using System.Text.Json;
-using Common.Dtos.Mail;
-using Common.Helpers;
-using Messaging;
-
 namespace MailService
 {
     public class MailWorker : BackgroundService

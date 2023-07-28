@@ -21,9 +21,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{2513E3CD-887D-40C5-893F-DD4C1220482C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{2513E3CD-887D-40C5-893F-DD4C1220482C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockAlertApp", "StockAlertApp\StockAlertApp.csproj", "{375C663A-E645-4D24-81C0-D43A6E71F01E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockAlertService", "StockAlertService\StockAlertService.csproj", "{F4E7A451-8DAE-4041-A2D8-875C29B66DED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,10 +55,10 @@ Global
 		{2513E3CD-887D-40C5-893F-DD4C1220482C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2513E3CD-887D-40C5-893F-DD4C1220482C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2513E3CD-887D-40C5-893F-DD4C1220482C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{375C663A-E645-4D24-81C0-D43A6E71F01E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{375C663A-E645-4D24-81C0-D43A6E71F01E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{375C663A-E645-4D24-81C0-D43A6E71F01E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{375C663A-E645-4D24-81C0-D43A6E71F01E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4E7A451-8DAE-4041-A2D8-875C29B66DED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4E7A451-8DAE-4041-A2D8-875C29B66DED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4E7A451-8DAE-4041-A2D8-875C29B66DED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4E7A451-8DAE-4041-A2D8-875C29B66DED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

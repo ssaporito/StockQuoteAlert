@@ -5,10 +5,12 @@ WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["MailService/MailService.csproj", "MailService/"]
-RUN dotnet restore "MailService/MailService.csproj"
+COPY ["Mail/MailService/MailService.csproj", "Mail/MailService/"]
+COPY ["Common/Common.csproj", "Common/"]
+COPY ["Messaging/Messaging.csproj", "Messaging/"]
+RUN dotnet restore "Mail/MailService/MailService.csproj"
 COPY . .
-WORKDIR "/src/MailService"
+WORKDIR "/src/Mail/MailService"
 RUN dotnet build "MailService.csproj" -c Release -o /app/build
 
 FROM build AS publish

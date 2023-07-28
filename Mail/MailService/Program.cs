@@ -10,6 +10,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddSingleton<IMailSender, MailSender>();
         services.SetUpRabbitMq(configuration);
         services.AddSingleton<IMessageQueueService, MessageQueueService>();
+        services.AddSingleton<IMailBroker, MailBroker>();
         services.AddHostedService<MailWorker>();        
     })
     .Build();

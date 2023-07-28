@@ -1,12 +1,8 @@
 using Moq;
 using MailService;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MimeKit;
-using Org.BouncyCastle.Tls;
-using System.Text;
-using System.Text.Json;
-using Messaging;
+using Common.Dtos.Mail;
 
 namespace MailApiTest
 {
