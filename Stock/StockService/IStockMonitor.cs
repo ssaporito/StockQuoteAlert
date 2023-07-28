@@ -1,9 +1,12 @@
-﻿namespace StockMonitorService
+﻿using Common.Dtos.Stock;
+
+namespace StockMonitorService
 {
     public interface IStockMonitor
     {
-        Task<Dictionary<string, object>> QueryStockQuote(string stockName, string suffix = ".SA");
-        Task SendBuyAlert(string stockName, decimal price);
-        Task SendSellAlert(string stockName, decimal price);
+        List<StockAlert> MonitorRegisteredStocks();
+        void SetMonitoring(StockMonitorRequest stockMonitorRequest);
+        void RemoveMonitoring(StockMonitorRequest stockMonitorRequest);
+        StockMonitorData? GetStockQuote(StockMonitorRequest stockMonitorRequest);        
     }
 }

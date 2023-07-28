@@ -1,52 +1,77 @@
-﻿using Microsoft.Extensions.Options;
-using System.Net.Http.Json;
+﻿using Common.Dtos.Stock;
 using System.Security.Cryptography.X509Certificates;
-using System.Text.Json;
 
 namespace StockMonitorService
 {
     public class StockMonitor : IStockMonitor
     {
-        private readonly StockApiSettings _stockApisettings;
-        private readonly HttpClient _httpClient;        
+        private readonly IStockApiService _stockApiService;
+        private readonly List<StockMonitorRequest> _stocksToMonitor = new();
+        private readonly Dictionary<StockMonitorRequest, StockMonitorData> _stockQuotes = new();        
 
-        public StockMonitor(HttpClient httpClient, IOptions<StockApiSettings> stockApiSettings) 
+        public StockMonitor(IStockApiService stockApiService) 
         {
-            _httpClient = httpClient;
-            _stockApisettings = stockApiSettings.Value;
+            _stockApiService = stockApiService;
         }
 
-        public async Task<Dictionary<string, object>> QueryStockQuote(string stockName, string suffix = ".SA")
-        {
-            var queryParams = new List<KeyValuePair<string, string>> 
+        public List<StockAlert> MonitorRegisteredStocks()
+        {          
+            List<StockAlert> stocksToAlert = new();
+
+            Parallel.ForEach(_stocksToMonitor, async monitorRequest =>
             {
-                new("function", "GLOBAL_QUOTE"),
-                new("symbol", stockName + suffix),
-                new("apikey", _stockApisettings.ApiKey)
-            };
+                string stockName = monitorRequest.StockName;
+                var rawData = await _stockApiService.QueryStockQuote(stockName);
+                var monitorData = ParseStockMonitorData(rawData);
+                decimal? previousPrice = _stockQuotes.ContainsKey(monitorRequest) ? _stockQuotes[monitorRequest].Price : null;
+                var alertType = StockAlertStrategy.BuyOrSell(monitorRequest, previousPrice, monitorData.Price);
+                if (alertType != null)
+                {
+                    StockAlert alert = new(monitorRequest, monitorData, alertType.Value);
+                    stocksToAlert.Add(alert);
+                }
+                
+                _stockQuotes[monitorRequest] = monitorData;
+            });
 
-            string completeQuery = BuildQuery(_stockApisettings.Endpoint, queryParams);
-            var jsonElement = await _httpClient.GetFromJsonAsync<JsonElement>(completeQuery);
-            var result = jsonElement.GetProperty("Global Quote").EnumerateObject().ToDictionary(x => x.Name, x => (object)x.Value);
-            Console.WriteLine(result);
-            return result;
+            return stocksToAlert;
         }
 
-        public async Task SendBuyAlert(string stockName, decimal price)
+        public StockMonitorData? GetStockQuote(StockMonitorRequest stockMonitorRequest)
         {
-
+            return _stockQuotes.ContainsKey(stockMonitorRequest) ? _stockQuotes[stockMonitorRequest] : null;
         }
 
-        public async Task SendSellAlert(string stockName, decimal price)
-        {
-
+        public void RemoveMonitoring(StockMonitorRequest stockMonitorRequest)
+        {            
+            _stocksToMonitor.Remove(stockMonitorRequest);
         }
 
-        private string BuildQuery(string baseUrl, List<KeyValuePair<string, string>> queryParams)
+        public void SetMonitoring(StockMonitorRequest stockMonitorRequest)
         {
-            string separator = queryParams.Any() ? "?" : "";
-            string result = baseUrl + separator + string.Join("&", queryParams.Select(kvp => kvp.Key + "=" + kvp.Value));
-            return result;
-        }        
+            var monitoredStock = _stocksToMonitor.FirstOrDefault(s => s == stockMonitorRequest);
+            if (monitoredStock == null)
+            {
+                _stocksToMonitor.Add(stockMonitorRequest);
+            }
+        }    
+        
+        private StockMonitorData? ParseStockMonitorData(Dictionary<string, object> stockData)
+        {
+            try
+            {
+                string priceKey = stockData.Keys.First(k => k.Contains("price"));
+                string changeKey = stockData.Keys.First(k => k.Contains("change"));
+
+                decimal currentPrice = (decimal)stockData[priceKey];
+                decimal change = (decimal)stockData[changeKey];
+
+                StockMonitorData monitorData = new(currentPrice, change);
+                return monitorData;
+            }
+            catch {
+                return null;
+            }
+        }
     }
 }
