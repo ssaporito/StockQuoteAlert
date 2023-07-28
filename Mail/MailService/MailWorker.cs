@@ -8,6 +8,7 @@ namespace MailService
         private readonly ILogger<MailWorker> _logger;
         private readonly IMailSender _mailSender;
         private readonly IMessageQueueService _mqService;
+        private readonly string _queueName = "mail";
 
         public MailWorker(ILogger<MailWorker> logger, IMailSender mailSender, IMessageQueueService messageQueueService)
         {
@@ -18,14 +19,19 @@ namespace MailService
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {            
-            _mqService.DeclareQueue("email_queue");
-            _mqService.ConsumeQueue("email_queue", async message =>
+            _mqService.DeclareQueue(_queueName, _queueName);
+            _mqService.ConsumeQueue(_queueName, async message =>
             {
                 Console.WriteLine("Received {0}", message);
                 var email = JsonSerializer.Deserialize<EmailMessage>(message);
                 if (email != null)
                 {
                     await _mailSender.SendMail(email);
+                    _logger.LogInformation($"E-mail sent to {email.RecipientEmail}");
+                }
+                else
+                {
+                    _logger.LogWarning($"E-mail was not sent due to bad format.");
                 }
             });
 
