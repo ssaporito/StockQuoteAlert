@@ -1,4 +1,6 @@
-﻿namespace MailService
+﻿using Common.Dtos.Mail;
+
+namespace MailService
 {
     public interface IMailSender
     {

@@ -4,7 +4,7 @@ namespace StockMonitorService
 {
     public interface IStockMonitorBroker
     {
-        void AlertStockQuote(StockAlert stockAlert);
-        void CheckMonitorRequests();
+        void PublishStockAlert(StockAlert stockAlert);
+        void ConsumeMonitorRequests();
     }
 }

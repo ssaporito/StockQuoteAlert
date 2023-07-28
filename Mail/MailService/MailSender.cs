@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Common.Dtos.Mail;
+using Microsoft.Extensions.Options;
 using MimeKit;
 
 namespace MailService
@@ -27,7 +28,5 @@ namespace MailService
             await _smtpClient.SendAsync(message);
             await _smtpClient.DisconnectAsync(true);
         }
-    }
-
-    public record EmailMessage(string Subject, string Body, string SenderName, string SenderEmail, string RecipientName, string RecipientEmail);
+    }    
 }

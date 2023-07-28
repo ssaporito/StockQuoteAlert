@@ -19,12 +19,12 @@ namespace StockMonitorService
             {
                 _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
 
-                _stockMonitorBroker.CheckMonitorRequests();
+                _stockMonitorBroker.ConsumeMonitorRequests();
 
                 var stockAlerts = _stockMonitor.MonitorRegisteredStocks();
                 Parallel.ForEach(stockAlerts, alert =>
                 {
-                    _stockMonitorBroker.AlertStockQuote(alert);
+                    _stockMonitorBroker.PublishStockAlert(alert);
                 });
                 
                 await Task.Delay(60000, stoppingToken);

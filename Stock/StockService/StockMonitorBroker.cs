@@ -1,4 +1,5 @@
 ﻿using Common.Dtos.Stock;
+using Common.Helpers;
 using Messaging;
 using System.Text.Json;
 
@@ -8,8 +9,8 @@ namespace StockMonitorService
     {
         private readonly IStockMonitor _stockMonitor;
         private readonly IMessageQueueService _mqService;
-        private readonly string _monitorQueueName = "stock_monitor";
-        private readonly string _alertQueueName = "quote_alert";
+        private readonly string _monitorQueueName = QueueNames.MonitorQueue;
+        private readonly string _alertQueueName = QueueNames.AlertQueue;
 
         public StockMonitorBroker(IStockMonitor stockMonitor, IMessageQueueService mqService)
         {
@@ -17,7 +18,7 @@ namespace StockMonitorService
             _mqService = mqService;
         }        
 
-        public void CheckMonitorRequests()
+        public void ConsumeMonitorRequests()
         {
             DeclareQueues();
 
@@ -29,7 +30,7 @@ namespace StockMonitorService
             });
         }
 
-        public void AlertStockQuote(StockAlert stockAlert)
+        public void PublishStockAlert(StockAlert stockAlert)
         {            
             string jsonAlert = JsonSerializer.Serialize(stockAlert);
             _mqService.PublishMessage(_alertQueueName, jsonAlert);

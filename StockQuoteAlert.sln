@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockAlertApp", "StockAlertApp\StockAlertApp.csproj", "{067549B6-B0DD-42C5-AD17-CD79DAA4E697}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockMonitorServiceTest", "Stock\StockServiceTest\StockMonitorServiceTest.csproj", "{539D46B1-BB51-419D-9D56-933BE81E3FD7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MailServiceTest", "Mail\MailServiceTest\MailServiceTest.csproj", "{9BA3CE3B-6270-410C-8673-BC67FBF2E723}"
@@ -25,16 +23,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{2513E3CD-887D-40C5-893F-DD4C1220482C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockAlertApp", "StockAlertApp\StockAlertApp.csproj", "{375C663A-E645-4D24-81C0-D43A6E71F01E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{067549B6-B0DD-42C5-AD17-CD79DAA4E697}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{067549B6-B0DD-42C5-AD17-CD79DAA4E697}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{067549B6-B0DD-42C5-AD17-CD79DAA4E697}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{067549B6-B0DD-42C5-AD17-CD79DAA4E697}.Release|Any CPU.Build.0 = Release|Any CPU
 		{539D46B1-BB51-419D-9D56-933BE81E3FD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{539D46B1-BB51-419D-9D56-933BE81E3FD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{539D46B1-BB51-419D-9D56-933BE81E3FD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -59,6 +55,10 @@ Global
 		{2513E3CD-887D-40C5-893F-DD4C1220482C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2513E3CD-887D-40C5-893F-DD4C1220482C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2513E3CD-887D-40C5-893F-DD4C1220482C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{375C663A-E645-4D24-81C0-D43A6E71F01E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{375C663A-E645-4D24-81C0-D43A6E71F01E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{375C663A-E645-4D24-81C0-D43A6E71F01E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{375C663A-E645-4D24-81C0-D43A6E71F01E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
