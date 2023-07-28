@@ -1,4 +1,4 @@
-﻿namespace MailService
+﻿namespace MailService.Messaging
 {
     public interface IMailBroker
     {

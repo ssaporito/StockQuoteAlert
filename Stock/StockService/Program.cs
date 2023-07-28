@@ -1,5 +1,9 @@
-using Messaging;
+using Messaging.Extensions;
+using Messaging.MessageQueueService;
 using StockMonitorService;
+using StockMonitorService.Messaging;
+using StockMonitorService.StockApi;
+using StockMonitorService.StockMonitor;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((hostContext, services) =>
@@ -12,7 +16,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddSingleton<IStockApiService, StockApiService>();
         services.AddSingleton<IStockMonitor, StockMonitor>();
         services.AddSingleton<IStockMonitorBroker, StockMonitorBroker>();
-        services.AddHostedService<StockMonitorWorker>();        
+        services.AddHostedService<Worker>();        
     })
     .Build();
 

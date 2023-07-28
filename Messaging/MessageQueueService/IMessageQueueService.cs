@@ -1,4 +1,4 @@
-﻿namespace Messaging
+﻿namespace Messaging.MessageQueueService
 {
     public interface IMessageQueueService
     {

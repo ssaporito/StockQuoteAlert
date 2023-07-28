@@ -1,8 +1,9 @@
 ﻿using Common.Dtos.Mail;
+using MailService.Smtp;
 using Microsoft.Extensions.Options;
 using MimeKit;
 
-namespace MailService
+namespace MailService.MailSender
 {
     public class MailSender : IMailSender
     {
@@ -28,5 +29,5 @@ namespace MailService
             await _smtpClient.SendAsync(message);
             await _smtpClient.DisconnectAsync(true);
         }
-    }    
+    }
 }

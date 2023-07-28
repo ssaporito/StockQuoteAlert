@@ -1,5 +1,6 @@
-﻿using Microsoft.Extensions.Options;
-using StockMonitorService;
+﻿using Common.Dtos.Stock;
+using Microsoft.Extensions.Options;
+using StockMonitorService.StockApi;
 
 namespace StockMonitorServiceTest
 {

@@ -9,6 +9,7 @@ services:
       - 15672:15672
     networks:
       - stock-alert
+    restart: always
   stockalertservice:
     image: ${DOCKER_REGISTRY-}stockalertservice
     build:      
@@ -17,9 +18,9 @@ services:
     depends_on: 
       - rabbitmq
     environment:
-      - ARG1=PETR4
-      - ARG2=22.67
-      - ARG3=22.59
+      - STOCK=IBM
+      - SELL=143.35
+      - BUY=143.2
     networks:
       - stock-alert
   mailservice:

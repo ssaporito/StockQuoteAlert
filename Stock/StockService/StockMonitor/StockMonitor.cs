@@ -1,23 +1,25 @@
 ﻿using Common.Dtos.Stock;
+using StockMonitorService.Helpers;
+using StockMonitorService.StockApi;
+using System.Collections.Concurrent;
 
-namespace StockMonitorService
+namespace StockMonitorService.StockMonitor
 {
     public class StockMonitor : IStockMonitor
     {
         private readonly IStockApiService _stockApiService;
         private readonly List<StockMonitorRequest> _stocksToMonitor = new();
-        private readonly Dictionary<StockMonitorRequest, StockMonitorData> _stockQuotes = new();        
+        private readonly Dictionary<StockMonitorRequest, StockMonitorData> _stockQuotes = new();
 
-        public StockMonitor(IStockApiService stockApiService) 
+        public StockMonitor(IStockApiService stockApiService)
         {
             _stockApiService = stockApiService;
         }
 
-        public List<StockAlert> MonitorRegisteredStocks()
-        {          
-            List<StockAlert> stocksToAlert = new();
-
-            Parallel.ForEach(_stocksToMonitor, async monitorRequest =>
+        public IEnumerable<StockAlert> MonitorRegisteredStocks()
+        {
+            ConcurrentBag<StockAlert> stocksToAlert = new();
+            Task[] monitorTasks = _stocksToMonitor.Select(monitorRequest => Task.Run(async () =>
             {
                 string stockName = monitorRequest.StockName;
                 var rawData = await _stockApiService.QueryStockQuote(stockName);
@@ -29,9 +31,11 @@ namespace StockMonitorService
                     StockAlert alert = new(monitorRequest, monitorData, alertType.Value);
                     stocksToAlert.Add(alert);
                 }
-                
+
                 _stockQuotes[monitorRequest] = monitorData;
-            });
+            })).ToArray();
+
+            Task.WaitAll(monitorTasks);
 
             return stocksToAlert;
         }
@@ -42,7 +46,7 @@ namespace StockMonitorService
         }
 
         public void RemoveMonitoring(StockMonitorRequest stockMonitorRequest)
-        {            
+        {
             _stocksToMonitor.Remove(stockMonitorRequest);
         }
 
@@ -53,8 +57,8 @@ namespace StockMonitorService
             {
                 _stocksToMonitor.Add(stockMonitorRequest);
             }
-        }    
-        
+        }
+
         private StockMonitorData? ParseStockMonitorData(Dictionary<string, object> stockData)
         {
             try
@@ -62,13 +66,14 @@ namespace StockMonitorService
                 string priceKey = stockData.Keys.First(k => k.Contains("price"));
                 string changeKey = stockData.Keys.First(k => k.Contains("change"));
 
-                decimal currentPrice = (decimal)stockData[priceKey];
-                decimal change = (decimal)stockData[changeKey];
+                decimal currentPrice = decimal.Parse(stockData[priceKey].ToString());
+                decimal change = decimal.Parse(stockData[changeKey].ToString());
 
                 StockMonitorData monitorData = new(currentPrice, change);
                 return monitorData;
             }
-            catch {
+            catch
+            {
                 return null;
             }
         }

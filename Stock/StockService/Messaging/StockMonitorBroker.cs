@@ -1,9 +1,10 @@
 ﻿using Common.Dtos.Stock;
 using Common.Helpers;
-using Messaging;
+using Messaging.MessageQueueService;
+using StockMonitorService.StockMonitor;
 using System.Text.Json;
 
-namespace StockMonitorService
+namespace StockMonitorService.Messaging
 {
     public class StockMonitorBroker : IStockMonitorBroker
     {
@@ -16,7 +17,7 @@ namespace StockMonitorService
         {
             _stockMonitor = stockMonitor;
             _mqService = mqService;
-        }        
+        }
 
         public void ConsumeMonitorRequests()
         {
@@ -31,7 +32,7 @@ namespace StockMonitorService
         }
 
         public void PublishStockAlert(StockAlert stockAlert)
-        {            
+        {
             string jsonAlert = JsonSerializer.Serialize(stockAlert);
             _mqService.PublishMessage(_alertQueueName, jsonAlert);
         }

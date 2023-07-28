@@ -1,6 +1,6 @@
 ﻿using Common.Dtos.Mail;
 
-namespace MailService
+namespace MailService.MailSender
 {
     public interface IMailSender
     {

@@ -1,4 +1,4 @@
-﻿namespace MailService
+﻿namespace MailService.Smtp
 {
     public class SmtpSettings
     {

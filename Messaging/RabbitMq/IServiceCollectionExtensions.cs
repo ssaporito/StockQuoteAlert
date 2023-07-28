@@ -1,8 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using RabbitMQ.Client;
+using Messaging.RabbitMq;
 
-namespace Messaging;
+namespace Messaging.Extensions;
 
 public static class IServiceCollectionExtensions
 {
@@ -19,11 +20,11 @@ public static class IServiceCollectionExtensions
             HostName = settings.HostName,
             UserName = settings.UserName,
             Password = settings.Password,
-            DispatchConsumersAsync = true,        
+            DispatchConsumersAsync = true,
         });
 
         services.AddSingleton<ModelFactory>();
         services.AddSingleton(sp => sp.GetRequiredService<ModelFactory>().CreateChannel());
         return services;
-    }    
+    }
 }

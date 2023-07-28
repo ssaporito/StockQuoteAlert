@@ -1,8 +1,9 @@
 using Moq;
-using MailService;
+using MailService.MailSender;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using Common.Dtos.Mail;
+using MailService.Smtp;
 
 namespace MailApiTest
 {

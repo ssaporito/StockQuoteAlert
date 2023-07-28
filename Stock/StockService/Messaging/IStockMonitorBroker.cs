@@ -1,6 +1,6 @@
 ﻿using Common.Dtos.Stock;
 
-namespace StockMonitorService
+namespace StockMonitorService.Messaging
 {
     public interface IStockMonitorBroker
     {

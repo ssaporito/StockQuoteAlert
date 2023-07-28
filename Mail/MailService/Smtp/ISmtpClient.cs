@@ -1,6 +1,6 @@
 ﻿using MimeKit;
 
-namespace MailService
+namespace MailService.Smtp
 {
     public interface ISmtpClient : IDisposable
     {
@@ -8,5 +8,5 @@ namespace MailService
         Task AuthenticateAsync(string user, string password);
         Task SendAsync(MimeMessage message);
         Task DisconnectAsync(bool quit);
-    }    
+    }
 }

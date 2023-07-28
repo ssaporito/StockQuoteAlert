@@ -1,12 +1,12 @@
 ﻿using Common.Dtos.Stock;
 
-namespace StockMonitorService
+namespace StockMonitorService.StockMonitor
 {
     public interface IStockMonitor
     {
-        List<StockAlert> MonitorRegisteredStocks();
+        IEnumerable<StockAlert> MonitorRegisteredStocks();
         void SetMonitoring(StockMonitorRequest stockMonitorRequest);
         void RemoveMonitoring(StockMonitorRequest stockMonitorRequest);
-        StockMonitorData? GetStockQuote(StockMonitorRequest stockMonitorRequest);        
+        StockMonitorData? GetStockQuote(StockMonitorRequest stockMonitorRequest);
     }
 }

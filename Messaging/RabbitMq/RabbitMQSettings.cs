@@ -1,4 +1,4 @@
-﻿namespace Messaging;
+﻿namespace Messaging.RabbitMq;
 
 public class RabbitMQSettings
 {

@@ -1,4 +1,5 @@
 using Common.Dtos.Stock;
+using StockAlertService.Messaging;
 using System.Security.Cryptography.X509Certificates;
 
 namespace StockAlertService
@@ -7,6 +8,9 @@ namespace StockAlertService
     {
         private readonly ILogger<Worker> _logger;
         private readonly IStockAlertBroker _stockAlertBroker;
+        private readonly string _stockArgName = "STOCK";
+        private readonly string _sellArgName = "SELL";
+        private readonly string _buyArgName = "BUY";
 
         public Worker(ILogger<Worker> logger, IStockAlertBroker stockAlertBroker)
         {
@@ -39,20 +43,16 @@ namespace StockAlertService
         {
             string stockName;
             decimal sellPrice, buyPrice;
-
-            string stockArgName = "ARG1";
-            string sellArgName = "ARG2";
-            string buyArgName = "ARG3";
             string stockArg, sellArg, buyArg;
 
             var envArgs = Environment.GetEnvironmentVariables();
             var cmdArgs = Environment.GetCommandLineArgs();
 
-            if (envArgs.Contains(stockArgName) && envArgs.Contains(sellArgName) && envArgs.Contains(buyArgName))
+            if (envArgs.Contains(_stockArgName) && envArgs.Contains(_sellArgName) && envArgs.Contains(_buyArgName))
             {
-                stockArg = (string)envArgs[stockArgName]!;
-                sellArg = (string)envArgs[sellArgName]!;
-                buyArg = (string)envArgs[buyArgName]!;
+                stockArg = (string)envArgs[_stockArgName]!;
+                sellArg = (string)envArgs[_sellArgName]!;
+                buyArg = (string)envArgs[_buyArgName]!;
             }
             else if (cmdArgs.Length == 4)
             {

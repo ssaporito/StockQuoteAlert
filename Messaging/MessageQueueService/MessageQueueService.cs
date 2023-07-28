@@ -1,14 +1,10 @@
 ﻿using RabbitMQ.Client.Events;
 using RabbitMQ.Client;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Runtime;
 using Microsoft.Extensions.Options;
+using Messaging.RabbitMq;
 
-namespace Messaging
+namespace Messaging.MessageQueueService
 {
     public class MessageQueueService : IMessageQueueService
     {

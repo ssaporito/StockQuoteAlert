@@ -1,5 +1,9 @@
 using MailService;
-using Messaging;
+using MailService.MailSender;
+using MailService.Messaging;
+using MailService.Smtp;
+using Messaging.Extensions;
+using Messaging.MessageQueueService;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((hostContext, services) =>
@@ -11,7 +15,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.SetUpRabbitMq(configuration);
         services.AddSingleton<IMessageQueueService, MessageQueueService>();
         services.AddSingleton<IMailBroker, MailBroker>();
-        services.AddHostedService<MailWorker>();        
+        services.AddHostedService<Worker>();        
     })
     .Build();
 

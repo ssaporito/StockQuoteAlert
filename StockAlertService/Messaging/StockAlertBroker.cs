@@ -2,12 +2,12 @@
 using Common.Dtos.Mail;
 using Common.Dtos.Stock;
 using Common.Helpers;
-using Messaging;
+using Messaging.MessageQueueService;
 using Microsoft.Extensions.Options;
 using StockAlertService.Dtos;
 
 
-namespace StockAlertService
+namespace StockAlertService.Messaging
 {
     public class StockAlertBroker : IStockAlertBroker
     {
@@ -20,7 +20,7 @@ namespace StockAlertService
         public StockAlertBroker(IOptions<MailInfo> mailInfo, IMessageQueueService mqService)
         {
             _mailInfo = mailInfo.Value;
-            _mqService = mqService;            
+            _mqService = mqService;
         }
 
         public void ConsumeAlerts()

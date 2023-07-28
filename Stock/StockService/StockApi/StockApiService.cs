@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 using System.Net.Http.Json;
 using System.Text.Json;
 
-namespace StockMonitorService
+namespace StockMonitorService.StockApi
 {
     public class StockApiService : IStockApiService
     {

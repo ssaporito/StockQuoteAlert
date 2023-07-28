@@ -1,11 +1,13 @@
+using MailService.Messaging;
+
 namespace MailService
 {
-    public class MailWorker : BackgroundService
+    public class Worker : BackgroundService
     {
-        private readonly ILogger<MailWorker> _logger;
+        private readonly ILogger<Worker> _logger;
         private readonly IMailBroker _mailBroker;
 
-        public MailWorker(ILogger<MailWorker> logger, IMailBroker mailBroker)
+        public Worker(ILogger<Worker> logger, IMailBroker mailBroker)
         {
             _logger = logger;
             _mailBroker = mailBroker;

@@ -1,12 +1,15 @@
+using StockMonitorService.Messaging;
+using StockMonitorService.StockMonitor;
+
 namespace StockMonitorService
 {
-    public class StockMonitorWorker : BackgroundService
+    public class Worker : BackgroundService
     {
-        private readonly ILogger<StockMonitorWorker> _logger;
+        private readonly ILogger<Worker> _logger;
         private readonly IStockMonitor _stockMonitor;
         private readonly IStockMonitorBroker _stockMonitorBroker;
 
-        public StockMonitorWorker(ILogger<StockMonitorWorker> logger, IStockMonitor stockMonitor, IStockMonitorBroker stockMonitorBroker)
+        public Worker(ILogger<Worker> logger, IStockMonitor stockMonitor, IStockMonitorBroker stockMonitorBroker)
         {
             _logger = logger;
             _stockMonitor = stockMonitor;
@@ -27,7 +30,7 @@ namespace StockMonitorService
                     _stockMonitorBroker.PublishStockAlert(alert);
                 });
                 
-                await Task.Delay(60000, stoppingToken);
+                await Task.Delay(5000, stoppingToken);
             }
         }
     }

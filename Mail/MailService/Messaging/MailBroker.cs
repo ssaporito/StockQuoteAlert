@@ -1,9 +1,10 @@
 ﻿using Common.Dtos.Mail;
 using Common.Helpers;
-using Messaging;
+using MailService.MailSender;
+using Messaging.MessageQueueService;
 using System.Text.Json;
 
-namespace MailService
+namespace MailService.Messaging
 {
     public class MailBroker : IMailBroker
     {

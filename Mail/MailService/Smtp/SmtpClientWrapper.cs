@@ -1,7 +1,7 @@
 ﻿using MailKit.Net.Smtp;
 using MimeKit;
 
-namespace MailService
+namespace MailService.Smtp
 {
     public class SmtpClientWrapper : ISmtpClient
     {

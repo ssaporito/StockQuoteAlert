@@ -1,6 +1,8 @@
 using StockAlertService;
 using StockAlertService.Dtos;
-using Messaging;
+using Messaging.MessageQueueService;
+using Messaging.Extensions;
+using StockAlertService.Messaging;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((hostContext, services) =>

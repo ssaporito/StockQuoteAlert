@@ -1,6 +1,7 @@
-using StockMonitorService;
 using Moq;
 using Common.Dtos.Stock;
+using StockMonitorService.StockMonitor;
+using StockMonitorService.StockApi;
 
 namespace StockMonitorServiceTest
 {

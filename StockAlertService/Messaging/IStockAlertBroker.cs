@@ -1,7 +1,7 @@
 ﻿using Common.Dtos.Mail;
 using Common.Dtos.Stock;
 
-namespace StockAlertService
+namespace StockAlertService.Messaging
 {
     public interface IStockAlertBroker
     {

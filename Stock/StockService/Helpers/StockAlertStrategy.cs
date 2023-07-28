@@ -1,9 +1,9 @@
 ﻿using Common.Dtos.Stock;
 
-namespace StockMonitorService
+namespace StockMonitorService.Helpers
 {
     public static class StockAlertStrategy
-    {        
+    {
         public static bool ShouldSell(StockMonitorRequest request, decimal? previousPrice, decimal currentPrice)
         {
             // Garante que a venda só seja recomendada cada vez que o preço transiciona de baixo para cima do limite
