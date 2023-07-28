@@ -19,4 +19,4 @@ RUN dotnet publish "StockAlertService.csproj" -c Release -o /app/publish /p:UseA
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "StockAlertService.dll"]
+ENTRYPOINT dotnet StockAlertService.dll $ARG1 $ARG2 $ARG3

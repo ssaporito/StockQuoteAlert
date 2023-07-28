@@ -1,0 +1,46 @@
+version: '3.4'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    container_name: 'rabbitmq'
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - stock-alert
+  stockalertservice:
+    image: ${DOCKER_REGISTRY-}stockalertservice
+    build:      
+      context: .
+      dockerfile: StockAlertService/Dockerfile
+    depends_on: 
+      - rabbitmq
+    environment:
+      - ARG1=PETR4
+      - ARG2=22.67
+      - ARG3=22.59
+    networks:
+      - stock-alert
+  mailservice:
+    image: ${DOCKER_REGISTRY-}mailservice
+    build:
+      context: .
+      dockerfile: Mail/MailService/Dockerfile
+    depends_on: 
+      - rabbitmq
+    networks:
+      - stock-alert
+  stockmonitorservice:
+    image: ${DOCKER_REGISTRY-}stockmonitorservice
+    build:
+      context: .
+      dockerfile: Stock/StockService/Dockerfile
+    depends_on: 
+      - rabbitmq
+    networks:
+      - stock-alert
+networks:
+  stock-alert:
+    driver: bridge
+

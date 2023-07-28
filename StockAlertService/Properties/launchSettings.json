@@ -9,7 +9,12 @@
     },
     "Docker": {
       "commandName": "Docker",
-      "commandLineArgs": "IBM 28.90 26.68"
+      "commandLineArgs": "IBM 28.90 26.68",
+      "environmentVariables": {
+        "ARG1": "IBM",
+        "ARG2": "28.90",
+        "ARG3": "26.68"
+      }
     },
     "WSL": {
       "commandName": "WSL2",
