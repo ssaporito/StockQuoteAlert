@@ -4,6 +4,7 @@ using MailService.MailSender;
 using Common.Helpers.Converters;
 using Common.Dtos.Mail;
 using Microsoft.Extensions.Options;
+using System.Globalization;
 
 namespace StockAlertAppSimple
 {
@@ -38,11 +39,12 @@ namespace StockAlertAppSimple
                 buyArg = cmdArgs[3];
 
                 stockName = stockArg;
-                bool sellArgOk = decimal.TryParse(sellArg, out sellPrice);
-                bool buyArgOk = decimal.TryParse(buyArg, out buyPrice);
+                sellPrice = sellArg.ToCurrencyDecimal();
+                buyPrice = buyArg.ToCurrencyDecimal();
 
                 StockMonitorRequest monitorRequest = new(stockName, buyPrice, sellPrice);
                 _stockMonitor.SetMonitoring(monitorRequest);
+                _logger.LogInformation($"Monitorando ativo {stockName} com venda recomendada a {sellPrice.ToCurrencyString()} e compra recomendada a {buyPrice.ToCurrencyString()}");
             }
             catch
             {
@@ -55,8 +57,12 @@ namespace StockAlertAppSimple
                 var stockAlerts = _stockMonitor.MonitorRegisteredStocks();
                 foreach (var alert in stockAlerts)
                 {
+                    string transaction = alert.AlertType == StockAlertType.Buy ? "compra" : "venda";
+                    string assetName = alert.MonitorRequest.StockName;
+                    _logger.LogInformation($"Ativo {assetName} atingiu preço recomendado para {transaction} a {alert.MonitorData.Price.ToCurrencyString()}");
                     var email = Converters.StockAlertToEmail(alert, _mailInfo);
                     await _mailSender.SendMail(email);
+                    _logger.LogInformation($"E-mail enviado para recomendação de {transaction} do ativo {assetName}");
                 }
                 _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
                 await Task.Delay(5000, stoppingToken);

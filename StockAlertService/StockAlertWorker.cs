@@ -1,4 +1,5 @@
 using Common.Dtos.Stock;
+using Common.Helpers.Converters;
 using Microsoft.Extensions.Hosting;
 using StockAlertService.Messaging;
 using System.Security.Cryptography.X509Certificates;
@@ -66,15 +67,21 @@ namespace StockAlertService
             else
             {
                 _logger.LogInformation("A aplicação requer os parâmetros stock_name, sell_price e buy_price (e.g. dotnet StockAlertService.dll PETR4 22.67 22.59");
+                _hostApplicationLifetime.StopApplication();
                 return null;
             }
 
             stockName = stockArg;
-            bool sellArgOk = decimal.TryParse(sellArg, out sellPrice);
-            bool buyArgOk = decimal.TryParse(buyArg, out buyPrice);
-            if (!sellArgOk || !buyArgOk)
+            try
+            {
+                sellPrice = sellArg.ToCurrencyDecimal();
+                buyPrice = buyArg.ToCurrencyDecimal();
+            }
+            catch
             {
                 _logger.LogInformation("Os parâmetros de compra e venda devem ser valores decimais (e.g. dotnet StockAlertService.dll PETR4 22.67 22.59");
+                _hostApplicationLifetime.StopApplication();
+                return null;
             }
 
             return (stockName, sellPrice, buyPrice);

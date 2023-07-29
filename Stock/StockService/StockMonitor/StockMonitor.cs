@@ -1,4 +1,5 @@
 ﻿using Common.Dtos.Stock;
+using Common.Helpers.Converters;
 using StockMonitorService.Helpers;
 using StockMonitorService.StockApi;
 using System.Collections.Concurrent;
@@ -66,8 +67,8 @@ namespace StockMonitorService.StockMonitor
                 string priceKey = stockData.Keys.First(k => k.Contains("price"));
                 string changeKey = stockData.Keys.First(k => k.Contains("change"));
 
-                decimal currentPrice = decimal.Parse(stockData[priceKey].ToString());
-                decimal change = decimal.Parse(stockData[changeKey].ToString());
+                decimal currentPrice = stockData[priceKey].ToString().ToCurrencyDecimal();
+                decimal change = stockData[changeKey].ToString().ToCurrencyDecimal();
 
                 StockMonitorData monitorData = new(currentPrice, change);
                 return monitorData;
