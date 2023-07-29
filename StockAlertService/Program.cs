@@ -1,8 +1,8 @@
 using StockAlertService;
-using StockAlertService.Dtos;
 using Messaging.MessageQueueService;
 using Messaging.Extensions;
 using StockAlertService.Messaging;
+using Common.Dtos.Mail;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((hostContext, services) =>
@@ -12,7 +12,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.SetUpRabbitMq(configuration);
         services.AddSingleton<IMessageQueueService, MessageQueueService>();
         services.AddSingleton<IStockAlertBroker, StockAlertBroker>();
-        services.AddHostedService<Worker>();
+        services.AddHostedService<StockAlertWorker>();
     })
     .Build();
 

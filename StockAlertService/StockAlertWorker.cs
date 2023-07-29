@@ -1,20 +1,23 @@
 using Common.Dtos.Stock;
+using Microsoft.Extensions.Hosting;
 using StockAlertService.Messaging;
 using System.Security.Cryptography.X509Certificates;
 
 namespace StockAlertService
 {
-    public class Worker : BackgroundService
+    public class StockAlertWorker : BackgroundService
     {
-        private readonly ILogger<Worker> _logger;
+        private readonly ILogger<StockAlertWorker> _logger;
+        private readonly IHostApplicationLifetime _hostApplicationLifetime;
         private readonly IStockAlertBroker _stockAlertBroker;
         private readonly string _stockArgName = "STOCK";
         private readonly string _sellArgName = "SELL";
         private readonly string _buyArgName = "BUY";
 
-        public Worker(ILogger<Worker> logger, IStockAlertBroker stockAlertBroker)
+        public StockAlertWorker(ILogger<StockAlertWorker> logger, IHostApplicationLifetime hostApplicationLifetime, IStockAlertBroker stockAlertBroker)
         {
             _logger = logger;
+            _hostApplicationLifetime = hostApplicationLifetime;
             _stockAlertBroker = stockAlertBroker;
         }
 
@@ -22,8 +25,8 @@ namespace StockAlertService
         {
             var exeArgsNullable = GetArgs();
             if (!exeArgsNullable.HasValue)
-            {                
-                return;
+            {
+                _hostApplicationLifetime.StopApplication();
             }
 
             var exeArgs = exeArgsNullable.Value;            

@@ -2,9 +2,9 @@
 using Common.Dtos.Mail;
 using Common.Dtos.Stock;
 using Common.Helpers;
+using Common.Helpers.Converters;
 using Messaging.MessageQueueService;
 using Microsoft.Extensions.Options;
-using StockAlertService.Dtos;
 
 
 namespace StockAlertService.Messaging
@@ -31,19 +31,12 @@ namespace StockAlertService.Messaging
             {
                 Console.WriteLine("Received {0}", message);
                 var stockAlert = JsonSerializer.Deserialize<StockAlert>(message);
-                var alertEmail = StockAlertToEmail(stockAlert);
+                var alertEmail = Converters.StockAlertToEmail(stockAlert, _mailInfo);
                 PublishMailRequest(alertEmail);
             });
         }
 
-        private EmailMessage StockAlertToEmail(StockAlert alert)
-        {
-            string buyOrSell = alert.AlertType == StockAlertType.Buy ? "buy" : "sell";
-            string subject = $"It's a good time to {buyOrSell} {alert.MonitorRequest.StockName}";
-            string body = $"Stock quote for {alert.MonitorRequest.StockName} has reached the recommended price to {buyOrSell}.";
-            EmailMessage alertEmail = new(subject, body, _mailInfo.SenderName, _mailInfo.SenderEmail, _mailInfo.RecipientName, _mailInfo.RecipientEmail);
-            return alertEmail;
-        }
+        
 
         public void PublishMailRequest(EmailMessage alertEmail)
         {

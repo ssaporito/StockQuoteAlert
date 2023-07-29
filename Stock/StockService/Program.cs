@@ -16,7 +16,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddSingleton<IStockApiService, StockApiService>();
         services.AddSingleton<IStockMonitor, StockMonitor>();
         services.AddSingleton<IStockMonitorBroker, StockMonitorBroker>();
-        services.AddHostedService<Worker>();        
+        services.AddHostedService<StockMonitorWorker>();        
     })
     .Build();
 

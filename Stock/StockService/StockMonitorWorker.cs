@@ -3,13 +3,13 @@ using StockMonitorService.StockMonitor;
 
 namespace StockMonitorService
 {
-    public class Worker : BackgroundService
+    public class StockMonitorWorker : BackgroundService
     {
-        private readonly ILogger<Worker> _logger;
+        private readonly ILogger<StockMonitorWorker> _logger;
         private readonly IStockMonitor _stockMonitor;
         private readonly IStockMonitorBroker _stockMonitorBroker;
 
-        public Worker(ILogger<Worker> logger, IStockMonitor stockMonitor, IStockMonitorBroker stockMonitorBroker)
+        public StockMonitorWorker(ILogger<StockMonitorWorker> logger, IStockMonitor stockMonitor, IStockMonitorBroker stockMonitorBroker)
         {
             _logger = logger;
             _stockMonitor = stockMonitor;
