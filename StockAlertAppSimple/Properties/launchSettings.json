@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "StockAlertAppSimple": {
+      "commandName": "Project",
+      "commandLineArgs": "IBM 143.35 143.2",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      },
+      "dotnetRunMessages": true
+    }
+  }
+}
